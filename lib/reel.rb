@@ -28,7 +28,7 @@ module Reel
 
   # Error occurred when trying to use the socket after it was upgraded
   class SocketUpgradedError < NilClass
-    def self.method_missing(m, *)
+    def self.method_missing(_m, *)
       raise(Reel::RequestError, 'Reel::Connection#socket can not be used anymore as it was upgraded. Use Reel::WebSocket instance instead.')
     end
   end
@@ -41,4 +41,13 @@ module Reel
 
   # wrong state for a given operation
   class StateError < RuntimeError; end
+
+  # Multipart Parsing Error
+  # :error_code paramter can be used for responding purpose
+  class MultipartParseError < RequestError
+    def initialize(error_code)
+      @error_code = error_code
+    end
+    attr_reader :error_code
+  end
 end
