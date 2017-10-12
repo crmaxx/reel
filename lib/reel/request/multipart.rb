@@ -27,11 +27,11 @@ module Reel
     # utility function to check if Content-Type is a multipart type
     # and initializing @multipart
     def multipart?
-      return @multipart.is_a? Reel::Request::Multipart if @multipart
+      return @multipart.is_a?(Reel::Request::Multipart) if @multipart
       # extract boundary
-      boundary = extract_boundary(self.headers[CONTENT_TYPE])
+      boundary = extract_boundary(headers[CONTENT_TYPE])
       # initializing Multipart
-      @multipart = Reel::Request::Multipart.new @body, boundary if boundary
+      @multipart = Reel::Request::Multipart.new(@body, boundary) if boundary
       @multipart.is_a? Reel::Request::Multipart
     rescue => e
       warn e
@@ -39,7 +39,9 @@ module Reel
     end
 
     def extract_boundary(content)
-      MultipartParser::Reader.extract_boundary_value content
+      MultipartParser::Reader.extract_boundary_value(content)
+    rescue
+      false
     end
 
     class Multipart
