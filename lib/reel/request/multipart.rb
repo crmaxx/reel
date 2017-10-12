@@ -4,7 +4,7 @@ require 'tempfile'
 
 module Reel
   class Request
-    include Celluloid::Internals::Logger
+    include Celluloid::Logger
 
     CONTENT_TYPE = 'Content-Type'.freeze
 
